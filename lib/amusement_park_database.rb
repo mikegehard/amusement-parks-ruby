@@ -12,21 +12,14 @@ class AmusementParkDatabase
   end
 
   def by_country
-    result = {}
-    @data.each do |row|
-      existing_data = result.fetch(row[:country]) {[]}
-      result[row[:country]] = existing_data << row
+    @data.group_by do |row|
+      row[:country]
     end
-    result
   end
 
   def by_city_country
-    result = {}
-    @data.each do |row|
-      key = "#{row[:state]}, #{row[:country]}"
-      existing_data = result.fetch(key) {[]}
-      result[key] = existing_data << row
+    @data.group_by do |row|
+      "#{row[:state]}, #{row[:country]}"
     end
-    result
   end
 end
